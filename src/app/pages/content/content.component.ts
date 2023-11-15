@@ -10,12 +10,12 @@ import { dataFake } from '../../data/dataFake';
 export class ContentComponent implements OnInit {
 
   @Input()
-  photoCover:string = "https://observatoriodocinema.uol.com.br/wp-content/plugins/seox-image-magick/imagick_convert.php?width=1400&height=800&format=webp&quality=91&imagick=/wp-content/uploads/2021/02/homem-de-ferro-tony-divulgacao.jpg";
+  photoCover:string = "";
   @Input()
-  contentTitle:string = "MINHA NOTÍCIA";
+  contentTitle:string = "";
   @Input()
-  contentDescription:string = "Olá mundo";
-  private id:string | null = "0"
+  contentDescription:string = "";
+  private id:string | null = ""
 
   constructor(
     private route:ActivatedRoute
@@ -25,10 +25,16 @@ export class ContentComponent implements OnInit {
     this.route.paramMap.subscribe(value =>
       this.id = value.get("id")
     )
+
+    this.setValuesToComponent(this.id)
   }
 
-  setValuesToComponent (id:string) {
-    const result = dataFake.filter(article => article.id == id)
+  setValuesToComponent (id:string | null) {
+    const result = dataFake.filter(article => article.id == id)[0]
+
+   this.contentTitle = result.title
+   this.contentDescription = result.description
+   this.photoCover = result.photoCover
   }
 
 }
